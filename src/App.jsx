@@ -594,7 +594,57 @@ function App() {
                 </div>
               ))}
             </div>
-
+            
+            <div style={{marginTop: '20px'}}>
+              <h2 style={{fontSize: '20px', fontWeight: 'bold', marginBottom: '15px'}}>Transaction Logs</h2>
+              <div style={{maxHeight: '400px', overflowY: 'auto'}}>
+                {userData.transactionLogs && userData.transactionLogs.slice().reverse().map(log => (
+                  <div key={log.id} style={{
+                    padding: '10px',
+                    marginBottom: '10px',
+                    backgroundColor: '#F7FAFC',
+                    borderRadius: '4px',
+                    border: '1px solid #E2E8F0'
+                  }}>
+                    <div style={{marginBottom: '5px', color: '#4A5568', fontSize: '0.9em'}}>
+                      {new Date(log.timestamp).toLocaleString()}
+                    </div>
+                    {log.type === 'payment' ? (
+                      <>
+                        <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                          <span>From: {log.from}</span>
+                          <span>To: {log.to}</span>
+                        </div>
+                        <div style={{display: 'flex', justifyContent: 'space-between', marginTop: '5px'}}>
+                          <span>Amount: {log.amount} credits</span>
+                          {log.status === 'completed' && (
+                            <span>Admin Fee: {log.adminFee} credits</span>
+                          )}
+                        </div>
+                        <div style={{
+                          marginTop: '5px',
+                          color: log.status === 'completed' ? '#48BB78' : '#F56565'
+                        }}>
+                          Status: {log.status}
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div>Admin Withdrawal</div>
+                        <div style={{marginTop: '5px'}}>Amount: {log.amount} credits</div>
+                        <div style={{
+                          marginTop: '5px',
+                          color: '#48BB78'
+                        }}>
+                          Status: {log.status}
+                        </div>
+                      </>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+            
             {showWithdrawDialog && (
               <div style={commonStyles.overlay}>
                 <div style={commonStyles.modal}>
